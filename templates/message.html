@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ message_type | title }}{% endblock %}
+
+{% block content %}
+<div class="card message-card message-{{ message_type }}">
+    {% if message_type == 'success' %}
+        <div class="icon">✅</div>
+    {% elif message_type == 'warning' %}
+        <div class="icon">⚠️</div>
+    {% else %}
+        <div class="icon">❌</div>
+    {% endif %}
+    
+    <p class="message-text">{{ message }}</p>
+    
+    <div class="button-group">
+        <a href="{{ url_for('verify', program_name=program_name) }}" class="btn btn-primary">التحقق من مستخدم آخر</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">العودة للبرامج</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}إدارة البرامج{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{{ url_for('index') }}" class="back-link">→ العودة للرئيسية</a>
+    
+    <h2>إدارة البرامج</h2>
+    
+    <div class="action-buttons">
+        <a href="{{ url_for('add_program') }}" class="btn btn-primary">➕ إضافة برنامج جديد</a>
+    </div>
+    
+    {% if programs %}
+        <div class="programs-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>الاسم العربي</th>
+                        <th>اسم الملف</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                    <tr class="{% if program.ShowInList|lower == 'false' %}inactive{% endif %}">
+                        <td>{{ program.ArabicName }}</td>
+                        <td class="ltr">{{ program.EnglishName }}</td>
+                        <td>
+                            {% if program.ShowInList|lower == 'true' %}
+                                <span class="status-badge active">نشط</span>
+                            {% else %}
+                                <span class="status-badge inactive">مخفي</span>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a href="{{ url_for('view_pdfs', english_name=program.EnglishName) }}" class="btn btn-small btn-info">📄 الإيصالات</a>
+                            <a href="{{ url_for('edit_program', english_name=program.EnglishName) }}" class="btn btn-small btn-secondary">تعديل</a>
+                            <a href="{{ url_for('toggle_program', english_name=program.EnglishName) }}" class="btn btn-small {% if program.ShowInList|lower == 'true' %}btn-warning{% else %}btn-success{% endif %}">
+                                {% if program.ShowInList|lower == 'true' %}إخفاء{% else %}إظهار{% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="info-text">لا توجد برامج. قم بإضافة برنامج جديد.</p>
+    {% endif %}
+</div>
+{% endblock %}

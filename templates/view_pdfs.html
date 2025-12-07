@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}الإيصالات - {{ program_info.ArabicName }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{{ url_for('manage_programs') }}" class="back-link">→ العودة لإدارة البرامج</a>
+    
+    <h2>إيصالات {{ program_info.ArabicName }}</h2>
+    
+    {% if pdfs %}
+        <p class="subtitle">عدد الإيصالات: {{ pdfs|length }}</p>
+        
+        <div class="pdf-list">
+            {% for pdf in pdfs %}
+            <div class="pdf-item">
+                <div class="pdf-info">
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-details">
+                        <span class="pdf-name">{{ pdf.user_name }}</span>
+                        <span class="pdf-id">رقم الهوية: {{ pdf.national_id }}</span>
+                        <span class="pdf-date">{{ pdf.date }}</span>
+                    </div>
+                </div>
+                <div class="pdf-actions">
+                    <a href="{{ url_for('download_pdf', english_name=program_name, filename=pdf.filename) }}" 
+                       class="btn btn-small btn-primary" target="_blank">عرض</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p>لا توجد إيصالات لهذا البرنامج بعد</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

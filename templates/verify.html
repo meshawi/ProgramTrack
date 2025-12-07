@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}التحقق من المستخدم - {{ program_info.ArabicName }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{{ url_for('index') }}" class="back-link">→ العودة للبرامج</a>
+    
+    <h2>{{ program_info.ArabicName }}</h2>
+    <p class="subtitle">أدخل رقم الهوية للتحقق من المستخدم</p>
+    
+    <form method="POST" class="verify-form">
+        <div class="form-group">
+            <label for="national_id">رقم الهوية</label>
+            <input type="text" 
+                   id="national_id" 
+                   name="national_id" 
+                   placeholder="أدخل رقم الهوية"
+                   autocomplete="off"
+                   inputmode="numeric"
+                   required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-large">تحقق من المستخدم</button>
+    </form>
+</div>
+{% endblock %}

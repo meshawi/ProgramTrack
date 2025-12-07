@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}تعديل البرنامج{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{{ url_for('manage_programs') }}" class="back-link">→ العودة لإدارة البرامج</a>
+    
+    <h2> تعديل البرنامج</h2>
+    
+    <div class="program-info-box">
+        <p><strong>اسم الملف:</strong> <span class="ltr">{{ program.EnglishName }}</span></p>
+        <p><strong>عدد المستخدمين:</strong> {{ total_users }} (استلموا: {{ received_users }})</p>
+    </div>
+    
+    <!-- Update Program Name -->
+    <div class="section">
+        <h3> تعديل اسم البرنامج</h3>
+        <form method="POST" class="program-form">
+            <input type="hidden" name="action" value="update_name">
+            <div class="form-group">
+                <label for="arabic_name">اسم البرنامج (بالعربي)</label>
+                <input type="text" 
+                       id="arabic_name" 
+                       name="arabic_name" 
+                       value="{{ program.ArabicName }}"
+                       required>
+            </div>
+            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+        </form>
+    </div>
+    
+    <hr class="section-divider">
+    
+    <!-- Add User Manually -->
+    <div class="section">
+        <h3>➕ إضافة مستخدم يدوياً</h3>
+        <form method="POST" class="program-form">
+            <input type="hidden" name="action" value="add_user">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="national_id">رقم الهوية</label>
+                    <input type="text" 
+                           id="national_id" 
+                           name="national_id" 
+                           placeholder="أدخل رقم الهوية"
+                           class="ltr-input"
+                           inputmode="numeric"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="full_name">الاسم الكامل</label>
+                    <input type="text" 
+                           id="full_name" 
+                           name="full_name" 
+                           placeholder="أدخل الاسم الكامل"
+                           required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">إضافة المستخدم</button>
+        </form>
+    </div>
+    
+    <hr class="section-divider">
+    
+    <!-- Open CSV File -->
+    <div class="section">
+        <h3>📂 فتح ملف CSV</h3>
+        <p class="help-text">افتح مجلد البرنامج لتعديل ملف CSV يدوياً</p>
+        <a href="{{ url_for('open_csv_folder', english_name=program.EnglishName) }}" class="btn btn-secondary">
+            📁 فتح مجلد البرنامج
+        </a>
+    </div>
+    
+    <hr class="section-divider">
+    
+    <!-- Import CSV -->
+    <div class="section">
+        <h3>📥 استيراد من ملف CSV</h3>
+        <p class="help-text">
+            استيراد قائمة مستخدمين من ملف CSV. يجب أن يحتوي الملف على عمودين:<br>
+            <code>NationalID</code> و <code>FullName</code><br>
+            أو بالعربي: <code>رقم الهوية</code> و <code>الاسم الكامل</code>
+        </p>
+        <form method="POST" enctype="multipart/form-data" class="program-form">
+            <input type="hidden" name="action" value="import_csv">
+            <div class="form-group">
+                <label for="csv_file">اختر ملف CSV</label>
+                <input type="file" 
+                       id="csv_file" 
+                       name="csv_file" 
+                       accept=".csv"
+                       class="file-input"
+                       required>
+            </div>
+            <button type="submit" class="btn btn-info">استيراد المستخدمين</button>
+        </form>
+        
+        <div class="import-template">
+            <p><strong>مثال على صيغة الملف:</strong></p>
+            <pre class="code-block">NationalID,FullName
+1234567890,أحمد محمد
+9876543210,سارة علي</pre>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}اختيار البرنامج{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>اختر البرنامج</h2>
+    
+    {% if programs %}
+        <div class="program-list">
+            {% for program in programs %}
+                <a href="{{ url_for('verify', program_name=program.EnglishName) }}" class="btn btn-primary btn-large">
+                    {{ program.ArabicName }}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="info-text">لا توجد برامج نشطة. قم بإضافة برنامج من صفحة الإدارة.</p>
+    {% endif %}
+    
+    <div class="manage-link">
+        <a href="{{ url_for('manage_programs') }}" class="btn btn-secondary">⚙️ إدارة البرامج</a>
+        <a href="{{ url_for('help_page') }}" class="btn btn-info">❓ دليل الاستخدام</a>
+    </div>
+</div>
+{% endblock %}
