@@ -170,12 +170,6 @@ Edit the last line in `app.py`:
 app.run(host='0.0.0.0', port=8080, debug=True)
 ```
 
-### Run in Production
-```bash
-pip install waitress
-waitress-serve --host=0.0.0.0 --port=5000 app:app
-```
-
 ## 🐛 Troubleshooting
 
 ### Problem: Arabic characters appear corrupted in Excel
